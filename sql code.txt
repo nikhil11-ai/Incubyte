@@ -1,0 +1,198 @@
+-- Total Sales Amount
+SELECT 
+    SUM(TransactionAmount) AS TotalSales
+FROM 
+    assignment.assessment_dataset;
+
+-- Average Sales per Transaction
+SELECT 
+    AVG(TransactionAmount) AS AvgSalesPerTransaction
+FROM 
+    assignment.assessment_dataset;
+
+-- Total Quantity Sold
+SELECT 
+    SUM(Quantity) AS TotalQuantitySold
+FROM 
+    assignment.assessment_dataset;
+
+-- Overall Discount Given
+SELECT 
+    SUM(TransactionAmount * (DiscountPercent / 100)) AS TotalDiscountGiven
+FROM 
+    assignment.assessment_dataset;
+
+-- Sales by Region
+SELECT 
+    Region, 
+    SUM(TransactionAmount) AS TotalSales, 
+    COUNT(TransactionID) AS TotalTransactions
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    Region
+ORDER BY 
+    TotalSales DESC;
+
+-- Top 5 Cities by Sales
+SELECT 
+    City, 
+    SUM(TransactionAmount) AS TotalSales
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    City
+ORDER BY 
+    TotalSales DESC
+LIMIT 5;
+
+-- Sales by Payment Method
+SELECT 
+    PaymentMethod, 
+    SUM(TransactionAmount) AS TotalSales, 
+    COUNT(TransactionID) AS TotalTransactions
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    PaymentMethod;
+
+-- Promotional vs. Non-Promotional Sales
+SELECT 
+    IsPromotional, 
+    SUM(TransactionAmount) AS TotalSales, 
+    COUNT(TransactionID) AS TotalTransactions
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    IsPromotional;
+
+-- Sales by Store Type
+SELECT 
+    StoreType, 
+    SUM(TransactionAmount) AS TotalSales, 
+    COUNT(TransactionID) AS TotalTransactions
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    StoreType;
+
+-- Monthly Sales Trends
+SELECT 
+    DATE_FORMAT(TransactionDate, '%Y-%m') AS Month, 
+    SUM(TransactionAmount) AS TotalSales
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    Month
+ORDER BY 
+    Month;
+
+-- Sales by Day of the Week
+SELECT 
+    DAYNAME(TransactionDate) AS DayOfWeek, 
+    SUM(TransactionAmount) AS TotalSales
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    DayOfWeek
+ORDER BY 
+    FIELD(DayOfWeek, 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+
+-- Top 5 Customers by Spending
+SELECT 
+    CustomerID, 
+    SUM(TransactionAmount) AS TotalSpent
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    CustomerID
+ORDER BY 
+    TotalSpent DESC
+LIMIT 5;
+
+-- Average Loyalty Points Earned
+SELECT 
+    AVG(LoyaltyPoints) AS AvgLoyaltyPoints
+FROM 
+    assignment.assessment_dataset;
+
+-- Customer Age Group Analysis
+SELECT 
+    CASE 
+        WHEN CustomerAge < 18 THEN 'Under 18'
+        WHEN CustomerAge BETWEEN 18 AND 25 THEN '18-25'
+        WHEN CustomerAge BETWEEN 26 AND 35 THEN '26-35'
+        WHEN CustomerAge BETWEEN 36 AND 50 THEN '36-50'
+        ELSE '51+'
+    END AS AgeGroup, 
+    COUNT(CustomerID) AS CustomerCount,
+    SUM(TransactionAmount) AS TotalSales
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    AgeGroup
+ORDER BY 
+    TotalSales DESC;
+
+-- Top 5 Best-Selling Products
+SELECT 
+    ProductName, 
+    SUM(Quantity) AS TotalQuantitySold, 
+    SUM(TransactionAmount) AS TotalSales
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    ProductName
+ORDER BY 
+    TotalQuantitySold DESC
+LIMIT 5;
+
+-- Feedback Score Distribution
+SELECT 
+    FeedbackScore, 
+    COUNT(TransactionID) AS TotalTransactions
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    FeedbackScore
+ORDER BY 
+    FeedbackScore DESC;
+
+-- Returned Transactions Analysis
+SELECT 
+    Returned, 
+    COUNT(TransactionID) AS TotalTransactions, 
+    SUM(TransactionAmount) AS TotalSales
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    Returned;
+
+-- Average Delivery Time by Region
+SELECT 
+    Region, 
+    AVG(DeliveryTimeDays) AS AvgDeliveryTime
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    Region;
+
+-- Total Shipping Cost by Region
+SELECT 
+    Region, 
+    SUM(ShippingCost) AS TotalShippingCost
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    Region
+ORDER BY 
+    TotalShippingCost DESC;
+
+-- Impact of Promotions on Delivery Time
+SELECT 
+    IsPromotional, 
+    AVG(DeliveryTimeDays) AS AvgDeliveryTime
+FROM 
+    assignment.assessment_dataset
+GROUP BY 
+    IsPromotional;
